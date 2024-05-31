@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "svg-tree-builder"
+version = "0.1.0"
+description = ""
+authors = ["Ahmed Alrifai <ahmed.alrifai.97@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pytest = "^8.2.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
