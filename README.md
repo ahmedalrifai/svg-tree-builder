@@ -33,3 +33,4 @@ python main.py
 - dump data as json or xml
 - Code refactoring
 - Packaging and distribution
+- Make unittests
