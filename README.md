@@ -6,15 +6,13 @@ svg-tree-builder is a Python script designed to recursively collect SVG files fr
 
 You need to [install poetry](https://python-poetry.org/docs/#installation) first then run: 
 
-```
+```bash
 poetry install
 ```
 
 ## Activate virtual environment
 
 ```bash
-cd backend/
-
 # macos or linux
 source .venv/bin/activate
 
