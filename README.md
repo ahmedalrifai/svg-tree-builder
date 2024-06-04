@@ -22,13 +22,25 @@ source .venv/bin/activate
 
 ## Usage
 
-```python
-python main.py
+basic command is to pass only the root directory contains svg files and it should make a json file in the current directory contains the svgs tree, You can use dot `.` instead of an absolute path to refrence the current working directory
+
+
+```bash
+python svg_tree_builder /path/to/svgs/directory/
+```
+
+You can customaize where to output file by using `--output /path/to/output/` or `-o` for short
+
+```bash
+python svg_tree_builder /path/to/svgs/directory/ -o /path/to/output/
+```
+
+For output format we have two choice json or xml (default is json), use `--format xml` or `-f` for shot to specify output format
+
+```bash
+python svg_tree_builder /path/to/svgs/directory/ -o /path/to/output/ -f xml
 ```
 
 ## Feature Updates
-- Make cli utility
-- dump data as json or xml
-- Code refactoring
 - Packaging and distribution
 - Make unittests
