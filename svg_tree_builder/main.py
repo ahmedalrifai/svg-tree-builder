@@ -16,7 +16,8 @@ def main(
         help='The absolute path of the directory contains svg files',
     )],
 
-    format: Annotated[OutputFormat, typer.Option(
+    file_format: Annotated[OutputFormat, typer.Option(
+        '--format', '-f',
         help='Output format of the svg tree',
         show_default=('json', 'xml')
     ), ] = OutputFormat.json,
@@ -38,8 +39,9 @@ def main(
     if output_path == '.' or output_path is None:
         output_path = os.getcwd()
 
-    svg_tree_builder = SvgTreeBuilder(root_path, output_path)
-    svg_tree_builder.json_print()
+    svg_tree_builder = SvgTreeBuilder(
+        root_path, output_path, file_format=file_format)
+    svg_tree_builder.save_to_file()
 
 
 if __name__ == "__main__":

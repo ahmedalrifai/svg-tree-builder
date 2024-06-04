@@ -1,17 +1,18 @@
 import json
+import xmltodict
 from pathlib import Path
 
-from rich import print, print_json
+from rich import print
 
 
 class SvgTreeBuilder:
-    def __init__(self, root_path: str, output_path: str = None):
+    def __init__(self, root_path: str, output_path: str = None, file_format='json'):
         self.root_path = Path(root_path)
         self.current_path = Path(root_path)
         self.has_svgs = False
 
         self.output_path = Path(output_path)
-
+        self.format = file_format
         self.svg_tree = self.build_svg_tree()
 
     @property
@@ -65,14 +66,18 @@ class SvgTreeBuilder:
 
         return svg_tree
 
-    def json_print(self):
+    def save_to_file(self):
         if self.has_svgs:
-            file_name = f'{self.root_path.name}.json'
-            with open(self.output_path.joinpath(file_name), 'w') as fp:
-                svg_tree_json = json.dump(self.svg_tree, fp, indent=2)
+            file_name = f'{self.root_path.name}.{self.format}'
 
-                if svg_tree_json:
-                    print(
-                        f'Save output to {self.output_path.joinpath(file_name)}')
+            with open(self.output_path.joinpath(file_name), 'w') as fp:
+                if self.format == 'json':
+                    json.dump(self.svg_tree, fp, indent=2)
+                elif self.format == 'xml':
+                    xmltodict.unparse(
+                        {'root': self.svg_tree}, fp, pretty=True)
+
+                print(
+                    f'Save output to "{self.output_path.joinpath(file_name)}"')
         else:
             print('Could not find svg files!')
