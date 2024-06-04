@@ -1,11 +1,17 @@
 import json
 from pathlib import Path
 
+from rich import print, print_json
+
 
 class SvgTreeBuilder:
-    def __init__(self, root_path: str):
+    def __init__(self, root_path: str, output_path: str = None):
         self.root_path = Path(root_path)
         self.current_path = Path(root_path)
+        self.has_svgs = False
+
+        self.output_path = Path(output_path)
+
         self.svg_tree = self.build_svg_tree()
 
     @property
@@ -22,6 +28,10 @@ class SvgTreeBuilder:
 
     def collect_svgs(self):
         svg_files = list(self.current_path.glob('*.svg'))
+
+        if svg_files:
+            self.has_svgs = True
+
         svgs_data = sorted([self.collect_svg_content(svg_file)
                             for svg_file in svg_files], key=lambda icon: icon['name'])
 
@@ -55,8 +65,14 @@ class SvgTreeBuilder:
 
         return svg_tree
 
-    def pretty_print(self):
-        print('<start')
+    def json_print(self):
+        if self.has_svgs:
+            file_name = f'{self.root_path.name}.json'
+            with open(self.output_path.joinpath(file_name), 'w') as fp:
+                svg_tree_json = json.dump(self.svg_tree, fp, indent=2)
 
-        print(self.svg_tree)
-        print('end>')
+                if svg_tree_json:
+                    print(
+                        f'Save output to {self.output_path.joinpath(file_name)}')
+        else:
+            print('Could not find svg files!')
